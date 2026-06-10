@@ -49,70 +49,80 @@ btnAltoContraste.addEventListener('click', () => {
     }
 });
 
-// ========== SISTEMA DE PERGUNTAS E RESPOSTAS ==========
+// ========== JOGO EDUCATIVO - PERGUNTAS SOBRE BIODIVERSIDADE ==========
 
-// Banco de perguntas sobre desmatamento e sustentabilidade
+// Banco de perguntas sobre biodiversidade e sustentabilidade
 const perguntas = [
     {
-        pergunta: "O que é desmatamento?",
+        pergunta: "O que é biodiversidade?",
         alternativas: [
-            "Plantio de novas árvores",
-            "Remoção total ou parcial da vegetação nativa de uma área",
-            "Proteção de florestas",
-            "Criação de áreas de preservação"
+            "A variedade de espécies de seres vivos e ecossistemas",
+            "Apenas a quantidade de árvores em uma floresta",
+            "Somente os animais de uma região",
+            "O estudo do clima"
+        ],
+        correta: 0
+    },
+    {
+        pergunta: "Qual destes é um impacto NEGATIVO do desmatamento?",
+        alternativas: [
+            "Aumento da biodiversidade",
+            "Perda do habitat de animais e plantas",
+            "Melhora da qualidade do solo",
+            "Aumento das chuvas"
         ],
         correta: 1
     },
     {
-        pergunta: "Qual das alternativas é uma CONSEQUÊNCIA do desmatamento?",
+        pergunta: "Qual prática agrícola ajuda a preservar a biodiversidade?",
         alternativas: [
-            "Aumento da biodiversidade",
-            "Melhora da qualidade do ar",
-            "Perda de habitat de animais e extinção de espécies",
-            "Aumento das chuvas"
+            "Uso intensivo de agrotóxicos",
+            "Queimadas para limpeza do solo",
+            "Agrofloresta (plantio com árvores nativas)",
+            "Desmatamento total da área"
         ],
         correta: 2
     },
     {
-        pergunta: "Qual prática ajuda a combater o desmatamento?",
+        pergunta: "O Brasil possui a maior biodiversidade do mundo. Qual bioma brasileiro é o mais rico em espécies?",
         alternativas: [
-            "Queimadas para limpeza do solo",
-            "Reflorestamento e agricultura sustentável",
-            "Extração ilegal de madeira",
-            "Expansão da pecuária sem planejamento"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "O Brasil é um dos países que mais desmata no mundo. Qual bioma brasileiro é o mais afetado?",
-        alternativas: [
-            "Pampa",
+            "Cerrado",
             "Pantanal",
             "Caatinga",
             "Amazônia"
         ],
         correta: 3
+    },
+    {
+        pergunta: "Qual a relação entre agricultura sustentável e meio ambiente?",
+        alternativas: [
+            "Eles não se relacionam",
+            "A agricultura sustentável protege o solo, a água e a biodiversidade",
+            "Só prejudica o meio ambiente",
+            "Usa apenas máquinas pesadas"
+        ],
+        correta: 1
     }
 ];
 
 let perguntaAtual = 0;
 let pontuacao = 0;
-let quizEmAndamento = true;
+let jogoEmAndamento = true;
 
-// Elementos do DOM
+// Elementos do DOM do jogo
 const perguntaArea = document.getElementById('pergunta-area');
 const resultadoArea = document.getElementById('resultado-area');
-const controleQuiz = document.getElementById('controle-quiz');
+const controleJogo = document.getElementById('controle-jogo');
 const perguntaTexto = document.getElementById('pergunta-texto');
 const alternativasArea = document.getElementById('alternativas-area');
 const proximaBtn = document.getElementById('proxima-pergunta');
-const reiniciarBtn = document.getElementById('reiniciar-perguntas');
+const reiniciarBtn = document.getElementById('reiniciar-jogo');
 
 // Carregar primeira pergunta ao iniciar
 carregarPergunta();
 
 function carregarPergunta() {
-    if (!quizEmAndamento) return;
+    if (!jogoEmAndamento) return;
     
     const pergunta = perguntas[perguntaAtual];
     perguntaTexto.textContent = pergunta.pergunta;
@@ -130,13 +140,13 @@ function carregarPergunta() {
     });
     
     // Esconder botão próximo até responder
-    controleQuiz.style.display = 'none';
+    controleJogo.style.display = 'none';
     resultadoArea.style.display = 'none';
     perguntaArea.style.display = 'block';
 }
 
 function verificarResposta(index, botaoClicado) {
-    if (!quizEmAndamento) return;
+    if (!jogoEmAndamento) return;
     
     const pergunta = perguntas[perguntaAtual];
     const estaCorreta = (index === pergunta.correta);
@@ -160,7 +170,7 @@ function verificarResposta(index, botaoClicado) {
     }
     
     // Mostrar botão próximo
-    controleQuiz.style.display = 'block';
+    controleJogo.style.display = 'block';
 }
 
 proximaBtn.addEventListener('click', () => {
@@ -169,55 +179,43 @@ proximaBtn.addEventListener('click', () => {
     if (perguntaAtual < perguntas.length) {
         carregarPergunta();
     } else {
-        finalizarQuiz();
+        finalizarJogo();
     }
 });
 
-function finalizarQuiz() {
-    quizEmAndamento = false;
+function finalizarJogo() {
+    jogoEmAndamento = false;
     perguntaArea.style.display = 'none';
-    controleQuiz.style.display = 'none';
+    controleJogo.style.display = 'none';
     resultadoArea.style.display = 'block';
     
     const pontuacaoTexto = document.getElementById('pontuacao-texto');
     const feedbackTexto = document.getElementById('feedback-texto');
     
-    pontuacaoTexto.textContent = `📊 Você acertou ${pontuacao} de ${perguntas.length} perguntas!`;
+    pontuacaoTexto.textContent = `🏆 Você acertou ${pontuacao} de ${perguntas.length} perguntas!`;
     
     if (pontuacao === perguntas.length) {
-        feedbackTexto.textContent = "🌟 Parabéns! Você é muito consciente sobre o desmatamento! Continue espalhando essa informação importante para ajudar a preservar o meio ambiente!";
-    } else if (pontuacao >= 2) {
-        feedbackTexto.textContent = "🌱 Bom trabalho! Você já sabe bastante, mas ainda pode aprender mais sobre como combater o desmatamento. Reveja as informações do site!";
+        feedbackTexto.textContent = "🌟 Parabéns! Você é um verdadeiro defensor da biodiversidade! Continue espalhando conscientização sobre a importância de preservar nosso meio ambiente!";
+    } else if (pontuacao >= 3) {
+        feedbackTexto.textContent = "🌱 Bom trabalho! Você já sabe bastante sobre biodiversidade, mas ainda pode aprender mais. Reveja as informações do site e tente novamente!";
     } else {
-        feedbackTexto.textContent = "📚 Continue estudando! O desmatamento é um problema sério que afeta a todos nós. Reveja as informações do site e tente novamente!";
+        feedbackTexto.textContent = "📚 Continue estudando! A biodiversidade é essencial para o futuro do nosso planeta. Explore nosso site e aprenda mais sobre como proteger a natureza!";
     }
 }
 
 reiniciarBtn.addEventListener('click', () => {
+    // Reiniciar variáveis
     perguntaAtual = 0;
     pontuacao = 0;
-    quizEmAndamento = true;
+    jogoEmAndamento = true;
     
+    // Resetar UI
     resultadoArea.style.display = 'none';
     perguntaArea.style.display = 'block';
     
     carregarPergunta();
 });
 
-// ========== BOTÃO PARA VÍDEO INFORMATIVO ==========
-const btnVideo = document.getElementById('btn-video');
-const areaVideo = document.getElementById('area-video');
-
-btnVideo.addEventListener('click', () => {
-    if (areaVideo.style.display === 'none') {
-        areaVideo.style.display = 'block';
-        btnVideo.textContent = '🎬 Fechar vídeo';
-    } else {
-        areaVideo.style.display = 'none';
-        btnVideo.textContent = '🎬 Assistir vídeo informativo';
-    }
-});
-
 // ========== TEXTO ALTERNATIVO PARA IMAGENS ==========
 // Todas as imagens já possuem atributo 'alt' descritivo no HTML
-console.log("Site Futuro Verde - Projeto Agrinho 2026 ativo!");
+console.log("Site Sustentabilidade Salva! - Projeto Agrinho 2026 - Funcionalidades de acessibilidade e jogo educativo ativos");
